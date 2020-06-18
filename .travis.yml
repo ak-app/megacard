@@ -1,0 +1,27 @@
+# Travis CI for compiling Atmel Studio 7 Solutions
+# ------------------------------------------------
+language: c
+sudo: false
+
+# Dependencies
+addons:
+  apt:
+    packages:
+      - binutils-avr
+      - avr-libc
+      - gcc-avr
+      - git
+
+install:
+  - git --version
+  - avr-gcc --version
+  - make --version
+
+# Execute Commands before Build
+before_script:
+  - git clone https://github.com/0x007E/script.git
+  - chmod 0777 script/atmel/atmel2unix
+
+# Run Build Script
+script:
+  - script/atmel/atmel2unix ${PWD} Debug
