@@ -226,7 +226,7 @@ void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char le
         return;
     
     unsigned char count = 0;    // Internal counter for character length
-    char buffer[11];            // ASCII buffer 10 digits + \0 escape character
+    char buffer[(sizeof(unsigned long) * 8 + 1)];   // ASCII buffer 10 digits + \0 escape character
     
     // Convert unsigned long to ASCII
     ultoa(data, buffer, base);
@@ -273,11 +273,11 @@ void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char leng
         return;
     
     unsigned char count = 0;    // Internal counter for character length
-    char buffer[12];            // ASCII buffer 10 digits + \0 escape character
+    char buffer[(sizeof(long) * 8 + 1)];   // ASCII buffer 10 digits + \0 escape character
     
     // Convert data to ASCII
     ltoa(data, buffer, base);
-
+    
     // Loop until \0 escape char is reached
     for(unsigned char i=0; i < sizeof(buffer); i++)
     {
@@ -302,8 +302,15 @@ void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char leng
         buffer[length] = LCD_NULL;
     }
     
-    // Write string to LCD
-    lcd_string(buffer);
+    if(base == 10)
+    {
+        // Write string to LCD
+        lcd_string(buffer);
+    }
+    else
+    {
+        lcd_string(&buffer[count - length]);
+    }
 }
 
 //  +---------------------------------------------------------------+
