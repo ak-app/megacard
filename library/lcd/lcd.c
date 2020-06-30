@@ -255,8 +255,15 @@ void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char le
         buffer[length] = LCD_NULL;
     }
     
-    // Write String to LCD
-    lcd_string(buffer);
+    if(base == 10)
+    {
+        // Write string to LCD
+        lcd_string(buffer);
+    }
+    else
+    {
+        lcd_string(&buffer[count - length]);
+    }
 }
 
 //  +---------------------------------------------------------------+
