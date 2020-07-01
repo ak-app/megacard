@@ -30,6 +30,10 @@ The uart example program sends data to PC and reads in a number that will be mul
 **IMPORTANT**\
 To activate the printf functionality for decimal numbers the linker arguments needs to be extended!
 
+To extend the arguments open properties of the project:
+
+![Project properties](/docs/image/as_project_properties.png "Atmel Studio project properties")
+
 ```
 # General:
 Use vprintf
