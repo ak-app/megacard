@@ -226,7 +226,7 @@ void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char le
         return;
     
     unsigned char count = 0;    // Internal counter for character length
-    char buffer[(sizeof(unsigned long) * 8 + 1)];   // ASCII buffer 10 digits + \0 escape character
+    char buffer[(sizeof(unsigned long) * 8 + 1)];   // ASCII buffer 9 digits + \0 escape character
     
     // Convert unsigned long to ASCII
     ultoa(data, buffer, base);
@@ -246,7 +246,12 @@ void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char le
     {
         // Write spaces to LCD display until position adjustment is done
         for(unsigned char i=0; i < (length - count); i++)
-            lcd_char(LCD_SPACE);
+        {
+            if(base != 10)
+                lcd_char('0');
+            else
+                lcd_char(LCD_SPACE);
+        }            
     }
     // Check if length is lower than count
     else if(count > length)
@@ -255,15 +260,8 @@ void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char le
         buffer[length] = LCD_NULL;
     }
     
-    if(base == 10)
-    {
-        // Write string to LCD
-        lcd_string(buffer);
-    }
-    else
-    {
-        lcd_string(&buffer[count - length]);
-    }
+    // Write string to LCD
+    lcd_string(buffer);
 }
 
 //  +---------------------------------------------------------------+
@@ -280,7 +278,7 @@ void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char leng
         return;
     
     unsigned char count = 0;    // Internal counter for character length
-    char buffer[(sizeof(long) * 8 + 1)];   // ASCII buffer 10 digits + \0 escape character
+    char buffer[(sizeof(long) * 8 + 2)];   // ASCII buffer 10 digits + \0 escape character
     
     // Convert data to ASCII
     ltoa(data, buffer, base);
@@ -300,7 +298,12 @@ void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char leng
     {
         // Write spaces to LCD display until position adjustment is done
         for(unsigned char i=0; i < (length - count); i++)
-            lcd_char(LCD_SPACE);
+        {
+            if(base != 10)
+                lcd_char('0');
+            else
+                lcd_char(LCD_SPACE);
+        }            
     }
     // Check if length is lower than count
     else if(count > length)
@@ -316,7 +319,10 @@ void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char leng
     }
     else
     {
-        lcd_string(&buffer[count - length]);
+        if(data < 0)
+            lcd_string(&buffer[count - length]);
+        else
+            lcd_string(buffer);
     }
 }
 
@@ -327,20 +333,15 @@ void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char leng
 //  |               radix   ->  2/10/16                             |
 //  |               length  ->  ASCII characters 1 - 10             |
 //  +---------------------------------------------------------------+
-void lcd_d2ascii(const double data, unsigned char length, unsigned char precision)
+void lcd_d2ascii(const double data, signed char length, unsigned char precision)
 {
-    // If length is empty or length + 1 is lower than precision stop
-    if((length == 0) || (length + 1 < precision))
-        return;
-    
-    char buffer[length + precision + 2];   // ASCII buffer (double width) digits + \0 escape character
-    
-    // If length is empty stop
-    if(length == 0)
-        return;
+    char buffer[60];
     
     // Convert double to ASCII
-    dtostrf(data, length, precision, buffer);
+    if((length > 0) && (length < 60))
+        dtostrf(data, length, precision, buffer);
+    else
+        dtostre(data, buffer, precision, DTOSTR_ALWAYS_SIGN | DTOSTR_UPPERCASE);
     
     // Write string to LCD
     lcd_string(buffer);

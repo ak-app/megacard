@@ -108,3 +108,7 @@ Temporary Items
 # LaTeX
 *.tex
 *.tikz
+
+# Release
+**/[Rr]elease/*
+**/[Rr]elease

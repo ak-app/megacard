@@ -194,6 +194,6 @@ void lcd_shift(unsigned char shift);
 void lcd_pattern(unsigned char address, const unsigned char *data);
 void lcd_ul2ascii(unsigned long data, unsigned char base, unsigned char length);
 void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char length);
-void lcd_d2ascii(const double data, unsigned char length, unsigned char precision);
+void lcd_d2ascii(const double data, signed char length, unsigned char precision);
 
 #endif /* LCD_H_ */

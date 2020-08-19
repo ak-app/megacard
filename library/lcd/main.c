@@ -76,7 +76,8 @@ int main(void)
     lcd_string("UM");                       // Write string to LCD display
     lcd_ul2ascii(12, 10, 4);                // Write unsigned long to LCD display (4 fields reserved)
     //lcd_sl2ascii(-12, 10, 0);             // Write signed long to LCD display (no field reserved)
-    //lcd_d2ascii(2.22, 4, 2);              // Write double to LCD display 
+    //lcd_d2ascii(2.22, 4, 2);              // Write double to LCD display in standard format
+    //lcd_d2ascii(2.22, -1, 2);             // Write double to LCD display in exponential format
     lcd_char(LCD_CGADDR_CHAR0);             // Write self defined pattern to LCD display
     
     // Write data to second Line
