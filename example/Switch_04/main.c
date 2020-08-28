@@ -49,15 +49,15 @@ int main(void)
             // Check if S0 (PINA0) is pressed (pushed -> LOW)
             //      true    when ?? == 0x01
             //      false   when ?? != 0x01
-            case 0x01   :   PORTB = 0xF0;   break;  // Switch PORT(7:4) level to VCC (turn on LEDs)
+            case 0x01   :   PORTC = 0xF0;   break;  // Switch PORT(7:4) level to VCC (turn on LEDs)
             
             // Check if S1 (PINA1) is pressed (pushed -> LOW)
             //      true    when ?? == 0x02
             //      false   when ?? != 0x02
-            case 0x02   :   PORTB = 0x0F;   break;  // Switch PORT(3:0) level to VCC (turn on LEDs)
+            case 0x02   :   PORTC = 0x0F;   break;  // Switch PORT(3:0) level to VCC (turn on LEDs)
             
             // If conditions are not obtained, default chapter will be executed
-            default     :   PORTB = LOW;    break;  // Switch PORT level to GROUND (switch off LEDs)
+            default     :   PORTC = LOW;    break;  // Switch PORT level to GROUND (switch off LEDs)
         }
     }
 }

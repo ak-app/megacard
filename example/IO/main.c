@@ -40,22 +40,22 @@ int main(void)
         PORTC = ~PORTC;     // Read actual PORT values an invert
         
         // Check PINA0 (HIGH -> LOW)
-        if(!(PINA & (1<<PA0)))          // other options:   if(!(PINA & (1<<0)))
+        if(!(PINA & (1<<PINA0)))        // other options:   if(!(PINA & (1<<0)))
         {                               //                  if(!(PINA & 0x01))
             _delay_ms(1000);            // Wait for 1000ms
         }
         // Check PINA1 (HIGH -> LOW)
-        else if(!(PINA & (1<<PA1)))     // other options:   if(!(PINA & (1<<1)))
+        else if(!(PINA & (1<<PINA1)))   // other options:   if(!(PINA & (1<<1)))
         {                               //                  if(!(PINA & 0x02))
             _delay_ms(750);             // Wait for 750ms
         }
         // Check PINA2 (HIGH -> LOW)
-        else if(!(PINA & (1<<PA2)))     // other options:   if(!(PINA & (1<<2)))
+        else if(!(PINA & (1<<PINA2)))   // other options:   if(!(PINA & (1<<2)))
         {                               //                  if(!(PINA & 0x04))
             _delay_ms(500);             // Wait for 500ms
         }
         // Check PINA3 (HIGH -> LOW)
-        else if(!(PINA & (1<<PA3)))     // other options:   if(!(PINA & (1<<4)))
+        else if(!(PINA & (1<<PINA3)))   // other options:   if(!(PINA & (1<<4)))
         {                               //                  if(!(PINA & 0x08))
             _delay_ms(250);             // Wait for 250ms
         }

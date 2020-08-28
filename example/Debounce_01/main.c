@@ -17,7 +17,7 @@
 #define HIGH 0xFF   // 0b1111_1111
 #define LOW 0x00    // 0b0000_0000
 
-#define SWITCH PA0  // Switch S0 (PA0)
+#define SWITCH PINA0  // Switch S0 (PA0)
 
 // System libraries
 #include <avr/io.h>
@@ -38,6 +38,8 @@ int main(void)
     // Enable pullup resistors on PORT(3:0) and leave PORT(7:4) untouched
     PORTA |= 0x0F;   // other options:   PORTA |= 0b00001111;
     
+    // Initialize PIN(0) to VCC
+    PORTC = 0x01;
     
     while (1)
     {
@@ -49,11 +51,11 @@ int main(void)
         //       = 0b0000000?
         // if !(true)   when ? == 1
         //    !(false)  when ? == 0
-        if(!(PINB & (1<<SWITCH)))
+        if(!(PINA & (1<<SWITCH)))
         {
-            PORTA = (PORTA<<1) | (PORTA>>7);    // Rotate PORT one position (left)
+            PORTC = (PORTC<<1) | (PORTC>>7);    // Rotate PORT one position (left)
             
-            while(!(PINB & (1<<SWITCH)));       // Wait until S0 (PINA0) is released (pushed -> HIGH)
+            while(!(PINA & (1<<SWITCH)));       // Wait until S0 (PINA0) is released (pushed -> HIGH)
         }
     }
 }

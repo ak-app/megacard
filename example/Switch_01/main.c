@@ -49,7 +49,7 @@ int main(void)
         //    !(false)  when ? == 0
         if(!(PINA & 0x01))      // other options:   if(!(PINA & (1<<0)))
         {                       //                  if(!(PINA & (1<<PA0))
-            PORTB = HIGH;       // Switch PORT level to VCC (turn on LEDs)
+            PORTC = HIGH;       // Switch PORT level to VCC (turn on LEDs)
         }
         
         // Single branch
@@ -62,7 +62,7 @@ int main(void)
         //    !(false)  when ? == 0
         if(!(PINA & 0x01))      // other options:   if(!(PINA & (1<<1)))
         {                       //                  if(!(PINA & (1<<PA1))
-            PORTB = LOW;        // Switch PORT level to GROUND (turn off LEDs)
+            PORTC = LOW;        // Switch PORT level to GROUND (turn off LEDs)
         }
     }
 }
