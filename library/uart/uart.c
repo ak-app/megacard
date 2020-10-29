@@ -17,9 +17,9 @@
 // Initialize FILE stream
 #if !defined(UARTRXCIE) && !defined(UARTTXCIE) && !defined(UARTTXCIE)
     static FILE std_uart = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
-#elif defined(UARTRXCIE) && !defined(UARTTXCIE) && !defined(UARTTXCIE)
-    static FILE std_uart = FDEV_SETUP_STREAM(null, uart_getchar, _FDEV_SETUP_READ);
 #elif !defined(UARTRXCIE) && (defined(UARTTXCIE) || defined(UARTTXCIE))
+    static FILE std_uart = FDEV_SETUP_STREAM(null, uart_getchar, _FDEV_SETUP_READ);
+#elif defined(UARTRXCIE) && !defined(UARTTXCIE) && !defined(UARTTXCIE)
     static FILE std_uart = FDEV_SETUP_STREAM(uart_putchar, null, _FDEV_SETUP_WRITE);
 #endif
 
