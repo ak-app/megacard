@@ -20,7 +20,7 @@
 
 
 #ifndef BAUD                // Transmission frequency in bits/s
-    #define BAUD 9800UL
+    #define BAUD 9600UL
 #endif
 
 
