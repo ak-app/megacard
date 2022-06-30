@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Sample for writing data over twi with
@@ -37,7 +38,7 @@
 #define F_CPU 12000000UL    // System clock (required for delay)
 
 // EEPROM settings
-#define SLAVE_ADDR 0x42     // Slave address of the EEPROM
+#define SLAVE_ADDR 0x42     // TWI_Slave address of the EEPROM
 #define EEPROM_ADDR  0xF0   // EEPROM memory address
 #define EEPROM_DATA  0xF0   // EEPROM test data
 
@@ -63,12 +64,12 @@ int main(void)
     DDRC |= (1<<PC7);   // Set PIN7 as output
     PORTC |= 0x03;      // Enable pullup resistors on SCL and SDA
     
-        // Initialize TWI as Master
-        twi_init(0x01);
+        // Initialize TWI as TWI_Master
+        twi_init(TWI_Master);
         
         // EEPROM WRITE routine
         twi_start();
-        twi_address(SLAVE_ADDR, TWI_WRITE);
+        twi_address(SLAVE_ADDR, TWI_Write);
         twi_set(EEPROM_ADDR);
         twi_set(EEPROM_DATA);
         twi_stop();
@@ -80,10 +81,10 @@ int main(void)
             
             // EEPROM READ routine
             twi_start();
-            twi_address(SLAVE_ADDR, TWI_WRITE);
+            twi_address(SLAVE_ADDR, TWI_Write);
             twi_set(EEPROM_ADDR);
             twi_start();
-            twi_address(SLAVE_ADDR, TWI_READ);
+            twi_address(SLAVE_ADDR, TWI_Read);
             twi_get(&data, TWI_NACK);
             twi_stop();
             

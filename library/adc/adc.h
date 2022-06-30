@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard
+ *    Hardware: ATmega16
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Header file for adc library
@@ -84,13 +85,35 @@
 
 #include <avr/io.h>
 
+enum ADC_Mode_t
+{
+    ADC_SingleEnded=0,
+    ADC_DifferentialGain,
+    ADC_DifferentialNoGain,
+    ADC_DifferentialSpecial
+};
+typedef enum ADC_Mode_t ADC_Mode;
+
+enum ADC_Channel_t
+{
+    ADC_CH0=0,
+    ADC_CH1,
+    ADC_CH2,
+    ADC_CH3,
+    ADC_CH4,
+    ADC_CH5,
+    ADC_CH6,
+    ADC_CH7
+};
+typedef enum ADC_Channel_t ADC_Channel;
+
 #ifdef ADC_ADIE
     #include <avr/interrupt.h>
 #endif
 
             void adc_init(void);
-            void adc_mode(unsigned char mode);
-            void adc_channel(unsigned char channel);
+            void adc_mode(ADC_Mode mode);
+            void adc_channel(ADC_Channel channel);
             void adc_disable(void);
             
 #ifndef ADC_ADIE

@@ -4,7 +4,7 @@
  * -----------------------------------------
  *    Hardware: Megacard (ATmega16)
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Read data from A/D channel 0 and write
@@ -81,7 +81,7 @@ int main(void)
     adc_init();
     
     // Select ADC channel 0 (unipolar mode)
-    adc_channel(0);
+    adc_channel(ADC_CH0);
     
     while (1) 
     {
@@ -130,14 +130,14 @@ int main(void)
         lcd_home();
         // Write U=????mV to display
         lcd_string("U=");
-        lcd_ul2ascii(u2, 10, 4);
+        lcd_ul2ascii(u2, LCD_Decimal, 4);
         lcd_string("mV");
         
         // 2. Line
         lcd_cursor(0,1);
         // Write R=????Ohm to display
         lcd_string("R=");
-        lcd_ul2ascii(r2, 10, 4);
+        lcd_ul2ascii(r2, LCD_Decimal, 4);
         lcd_char(LCD_CGADDR_CHAR0);
     }
 }

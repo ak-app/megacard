@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Sample for writing data to display with
@@ -51,34 +52,42 @@ int main(void)
                                     0b00000
                                     };
 
-    unsigned char pattern_L[] = { 0b11100, 0b11100, 0b11100, 0b11100, 0b11100, 0b11100, 0b11111, 0b11111 }; // special L character
-    unsigned char pattern_I[] = { 0b01110, 0b01110, 0b01110, 0b01110, 0b01110, 0b01110, 0b01110, 0b01110 }; // special I character
-    unsigned char pattern_E[] = { 0b11111, 0b11111, 0b11000, 0b11111, 0b11111, 0b11000, 0b11111, 0b11111 }; // special E character
-    unsigned char pattern_B[] = { 0b11110, 0b11111, 0b11011, 0b11111, 0b11111, 0b11001, 0b11111, 0b11110 }; // special B character
-    unsigned char pattern_H[] = { 0b11011, 0b11011, 0b11011, 0b11111, 0b11111, 0b11011, 0b11011, 0b11011 }; // special H character
-    unsigned char pattern_R[] = { 0b11110, 0b11111, 0b11011, 0b11011, 0b11111, 0b11110, 0b11110, 0b11011 }; // special R character
+    unsigned char pattern_G[] = { 0b11111, 0b11111, 0b11000, 0b11000, 0b11011, 0b11011, 0b11111, 0b11111 }; // special G character
+    unsigned char pattern_D[] = { 0b00000, 0b00000, 0b00000, 0b00000, 0b00000, 0b01110, 0b01110, 0b01110 }; // special . character
+    unsigned char pattern_R[] = { 0b11110, 0b11111, 0b11011, 0b11111, 0b11110, 0b11110, 0b11011, 0b11011 }; // special R character
+    unsigned char pattern_A[] = { 0b00100, 0b01110, 0b11011, 0b11011, 0b11111, 0b11111, 0b11011, 0b11011 }; // special A character
+    unsigned char pattern_F[] = { 0b11111, 0b11111, 0b11000, 0b11110, 0b11110, 0b11000, 0b11000, 0b11000 }; // special F character
     
     // LCD display initialisation
     lcd_init();
     
     // Save self defined patterns to CGRAM
     lcd_pattern(LCD_CGADDR_CHAR0, pattern_bell);
-    lcd_pattern(LCD_CGADDR_CHAR1, pattern_L);
-    lcd_pattern(LCD_CGADDR_CHAR2, pattern_I);
-    lcd_pattern(LCD_CGADDR_CHAR3, pattern_E);
-    lcd_pattern(LCD_CGADDR_CHAR4, pattern_B);
-    lcd_pattern(LCD_CGADDR_CHAR5, pattern_H);
-    lcd_pattern(LCD_CGADDR_CHAR6, pattern_R);
+    lcd_pattern(LCD_CGADDR_CHAR1, pattern_G);
+    lcd_pattern(LCD_CGADDR_CHAR2, pattern_D);
+    lcd_pattern(LCD_CGADDR_CHAR3, pattern_R);
+    lcd_pattern(LCD_CGADDR_CHAR4, pattern_A);
+    lcd_pattern(LCD_CGADDR_CHAR5, pattern_F);
+    // or
+    //lcd_pattern(LCD_Char0, pattern_bell);
+    //lcd_pattern(LCD_Char1, pattern_G);
+    //lcd_pattern(LCD_Char2, pattern_D);
+    //lcd_pattern(LCD_Char3, pattern_R);
+    //lcd_pattern(LCD_Char4, pattern_A);
+    //lcd_pattern(LCD_Char5, pattern_F);
     
     // Write data to first Line
     lcd_home();                             // Set cursor to home position
     lcd_char('N');                          // Write single character to LCD display
     lcd_string("UM");                       // Write string to LCD display
-    lcd_ul2ascii(12, 10, 4);                // Write unsigned long to LCD display (4 fields reserved)
-    //lcd_sl2ascii(-12, 10, 0);             // Write signed long to LCD display (no field reserved)
+    lcd_ul2ascii(12, LCD_Decimal, 4);           // Write unsigned long to LCD display (4 fields reserved)
+    //lcd_sl2ascii(-12, LCD_Decimal, 0);        // Write signed long to LCD display (no field reserved)
     //lcd_d2ascii(2.22, 4, 2);              // Write double to LCD display in standard format
     //lcd_d2ascii(2.22, -1, 2);             // Write double to LCD display in exponential format
+    
     lcd_char(LCD_CGADDR_CHAR0);             // Write self defined pattern to LCD display
+    // or
+    //lcd_char(LCD_Char0);                        // Write self defined pattern to LCD display
     
     // Write data to second Line
     lcd_cursor(0, 1);                       // Set cursor to second line
@@ -89,9 +98,13 @@ int main(void)
     lcd_char(LCD_CGADDR_CHAR3);
     lcd_char(LCD_CGADDR_CHAR4);
     lcd_char(LCD_CGADDR_CHAR5);
-    lcd_char(LCD_CGADDR_CHAR3);
-    lcd_char(LCD_CGADDR_CHAR6);
-    lcd_char(LCD_CGADDR_CHAR6);
+    // or
+    //lcd_char(LCD_Char1);
+    //lcd_char(LCD_Char2);
+    //lcd_char(LCD_Char3);
+    //lcd_char(LCD_Char4);
+    //lcd_char(LCD_Char5);
+    
     
     // Endless loop
     while (1) 
@@ -114,12 +127,12 @@ int main(void)
                 // Check if text appears on the screen
                 if((i < LCD_COLUMNS) || (i >= (LCD_COLUMNS_END - LCD_COLUMNS)))
                 {
-                    lcd_shift(0);       // Shift text on lcd display right
+                    lcd_shift(LCD_Right);   // Shift text on lcd display right
                     _delay_ms(500);     // Decrease speed of shifting
                 }
                 else
                 {
-                    lcd_shift(0);       // Shift text on lcd display right
+                    lcd_shift(LCD_Right);   // Shift text on lcd display right
                 }
             }
         }

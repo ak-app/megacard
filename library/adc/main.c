@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard
+ *    Hardware: ATmega16
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Sample for reading A/D data with the
@@ -29,8 +30,12 @@ int main(void)
     // Initialize ADC with defined parameters in adc.h
     adc_init();
     
+    // ADC Mode
+    // Standard: Single Ended, no configuration required
+    adc_mode(ADC_SingleEnded);
+    
     // Select ADC channel 5 (unipolar mode)
-    adc_channel(5);
+    adc_channel(ADC_CH5);
     
     while (1) 
     {

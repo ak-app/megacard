@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Function file for lcd library
@@ -180,9 +181,9 @@ void lcd_cursor(unsigned char x, unsigned char y)
 //  | Parameter:    shift   ->  0 = right                           |
 //  |                           1 = left                            |
 //  +---------------------------------------------------------------+
-void lcd_shift(unsigned char shift)
+void lcd_shift(LCD_Shift shift)
 {
-    if(shift == 0)
+    if(shift == LCD_Right)
         lcd_cmd(LCD_SHIFT | LCD_SHIFT_DISPLAY | LCD_SHIFT_RIGHT);
     else
         lcd_cmd(LCD_SHIFT | LCD_SHIFT_DISPLAY);
@@ -197,7 +198,7 @@ void lcd_shift(unsigned char shift)
 //  |                           predefined: LCD_CGADDR_CHAR0 - (n)  |
 //  |            data (ptr) ->  pattern array (5 bit x 7 rows)      |
 //  +---------------------------------------------------------------+
-void lcd_pattern(unsigned char address, const unsigned char *data)
+void lcd_pattern(LCD_Char address, const unsigned char *data)
 {
     // Check if address is greater than max. allowed address
     if(address > LCD_CGADDDR_MAX)
@@ -219,7 +220,7 @@ void lcd_pattern(unsigned char address, const unsigned char *data)
 //  |               radix   ->  2/10/16                             |
 //  |               length  ->  ASCII characters 1 - 10             |
 //  +---------------------------------------------------------------+
-void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char length)
+void lcd_ul2ascii(const unsigned long data, LCD_Base base, unsigned char length)
 {
     // If base is wrong or length is to short/wide return
     if((base != 2 && base != 10 && base != 16) || (length < 1 || length > 10))
@@ -271,7 +272,7 @@ void lcd_ul2ascii(const unsigned long data, unsigned char base, unsigned char le
 //  |               radix   ->  2/10/16                             |
 //  |               length  ->  ASCII characters 1 - 10             |
 //  +---------------------------------------------------------------+
-void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char length)
+void lcd_sl2ascii(const signed long data, LCD_Base base, unsigned char length)
 {
     // If base is wrong or length is to short/wide return
     if((base != 2 && base != 10 && base != 16) || (length < 1 || length > 10))

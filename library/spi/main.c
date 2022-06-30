@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Sample for writing data over spi with
@@ -25,15 +26,15 @@ int main(void)
     // Port setup
     DDRC = 0xFF;    // Set PORT as output
     DDRA = 0x00;    // Set PORT as input
-    PORTA = 0x0F;   // Enable pullup resistor
+    PORTA = 0x0F;   // SPI_Enable pullup resistor
     
     // SPI Initialization
-    //      Mode: Master
-    // Direction: MSB
-    //  Transfer: Rising/Rising
+    //      Mode: SPI_Master
+    // Direction: SPI_MSB
+    //  Transfer: SPI_Rising/SPI_Rising
     //
     // Details can be found in spi.c
-    spi_init(0x01, 0x00, 0x00);
+    spi_init(SPI_Master, SPI_MSB, SPI_Rising, SPI_Rising);
     
     while (1) 
     {

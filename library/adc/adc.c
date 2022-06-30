@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard
+ *    Hardware: ATmega16
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Function file for adc library
@@ -56,12 +57,12 @@ void adc_disable(void)
 //  |                           0x01 = Differential input   | Gain  |
 //  |                                  ADC0 - ADC0 (CH0)    |  10x  |
 //  |                                  ADC1 - ADC0 (CH1)    |  10x  |
-//  |                                  ADC0 - ADC0 (CH2)    | 200x  |
-//  |                                  ADC1 - ADC0 (CH3)    | 200x  |
-//  |                                  ADC2 - ADC2 (CH4)    |  10x  |
-//  |                                  ADC3 - ADC2 (CH5)    |  10x  |
-//  |                                  ADC2 - ADC2 (CH6)    | 200x  |
-//  |                                  ADC3 - ADC2 (CH7)    | 200x  |
+//  |                                  ADC0 - ADC0 (CH0)    | 200x  |
+//  |                                  ADC1 - ADC0 (CH1)    | 200x  |
+//  |                                  ADC2 - ADC2 (CH2)    |  10x  |
+//  |                                  ADC3 - ADC2 (CH3)    |  10x  |
+//  |                                  ADC2 - ADC2 (CH2)    | 200x  |
+//  |                                  ADC3 - ADC2 (CH3)    | 200x  |
 //  |                           0x02 = Differential input   | Gain  |
 //  |                                  ADC0 - ADC1 (CH0)    |   1x  |
 //  |                                  ADC1 - ADC1 (CH1)    |   1x  |
@@ -82,7 +83,7 @@ void adc_disable(void)
 //  |                                  1.22V Ref   (CH6)            |
 //  |                                  0V Ref      (CH7)            |
 //  +---------------------------------------------------------------+
-void adc_mode(unsigned char mode)
+void adc_mode(ADC_Mode mode)
 {
     ADMUX = (ADMUX & 0xE7) | ((0x03 & mode)<<3);    // Setup ADC Mode
 }
@@ -99,7 +100,7 @@ void adc_mode(unsigned char mode)
 //  |                           0x06 = CH6                          |
 //  |                           0x07 = CH7                          |
 //  +---------------------------------------------------------------+
-void adc_channel(unsigned char channel)
+void adc_channel(ADC_Channel channel)
 {
     ADMUX = (ADMUX & ~(0x07)) | (0x07 & channel);   // Select ADC Channel
 }

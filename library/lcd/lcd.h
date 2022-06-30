@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Header file for lcd library
@@ -180,6 +181,34 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+enum LCD_Shift_t
+{
+    LCD_Right=0,
+    LCD_Left
+};
+typedef enum LCD_Shift_t LCD_Shift;
+
+enum LCD_Base_t
+{
+    LCD_Binary=2,
+    LCD_Decimal=10,
+    LCD_Hexadecimal=16    
+};
+typedef enum LCD_Base_t LCD_Base;
+
+enum LCD_Char_t
+{
+    LCD_Char0=LCD_CGADDR_CHAR0,
+    LCD_Char1=LCD_CGADDR_CHAR1,
+    LCD_Char2=LCD_CGADDR_CHAR2,
+    LCD_Char3=LCD_CGADDR_CHAR3,
+    LCD_Char4=LCD_CGADDR_CHAR4,
+    LCD_Char5=LCD_CGADDR_CHAR5,
+    LCD_Char6=LCD_CGADDR_CHAR6,
+    LCD_Char7=LCD_CGADDR_CHAR7
+};
+typedef enum LCD_Char_t LCD_Char;
+
 void lcd_init(void);
 void lcd_disable(void);
 void lcd_clock(void);
@@ -190,10 +219,10 @@ void lcd_string(const char *data);
 void lcd_clear(void);
 void lcd_home(void);
 void lcd_cursor(unsigned char x, unsigned char y);
-void lcd_shift(unsigned char shift);
-void lcd_pattern(unsigned char address, const unsigned char *data);
-void lcd_ul2ascii(unsigned long data, unsigned char base, unsigned char length);
-void lcd_sl2ascii(const signed long data, unsigned char base, unsigned char length);
+void lcd_shift(LCD_Shift shift);
+void lcd_pattern(LCD_Char address, const unsigned char *data);
+void lcd_ul2ascii(unsigned long data, LCD_Base base, unsigned char length);
+void lcd_sl2ascii(const signed long data, LCD_Base base, unsigned char length);
 void lcd_d2ascii(const double data, signed char length, unsigned char precision);
 
 #endif /* LCD_H_ */

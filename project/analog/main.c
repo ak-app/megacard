@@ -4,7 +4,7 @@
  * -----------------------------------------
  *    Hardware: Megacard (ATmega16)
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Read data from A/D channel 5 and send
@@ -77,7 +77,7 @@ int main(void)
     adc_init();
     
     // Select ADC channel 5 (unipolar mode)
-    adc_channel(5);
+    adc_channel(ADC_CH5);
     
     while (1) 
     {

@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Header file for spi library
@@ -27,7 +28,7 @@
     #define SPI2X
 #endif
 
-#ifndef SPI_CLOCK   // Master shift clock
+#ifndef SPI_CLOCK   // SPI_Master shift clock
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // !!! In slave mode the spi clock speed should !!!
     // !!! not exceed f_CPU/4.                      !!!
@@ -48,7 +49,7 @@
     #define SPI_DDR DDRB
 #endif
 
-#ifndef SPI_PIN // Pin for SPI setup
+#ifndef SPI_PIN     // Pin for SPI setup
     #define SPI_PIN PINB
 #endif
 
@@ -97,14 +98,51 @@
     #include <avr/interrupt.h>
 #endif
 
-unsigned char spi_init(unsigned char operation, unsigned char direction, unsigned char transfer);
+enum SPI_Mode_t
+{
+    SPI_Slave=0,
+    SPI_Master
+};
+typedef enum SPI_Mode_t SPI_Mode;
+
+enum SPI_Direction_t
+{
+    SPI_MSB=0,
+    SPI_LSB
+};
+typedef enum SPI_Direction_t SPI_Direction;
+
+enum SPI_Edge_t
+{
+    SPI_Rising=0,
+    SPI_Falling
+};
+typedef enum SPI_Edge_t SPI_Polarity;
+typedef enum SPI_Edge_t SPI_Phase;
+
+enum SPI_Select_t
+{
+    SPI_Disable=0,
+    SPI_Enable
+};
+typedef enum SPI_Select_t SPI_Select;
+
+enum SPI_Status_t
+{
+    SPI_Received=0,
+    SPI_Collision,
+    SPI_None
+};
+typedef enum SPI_Status_t SPI_Status;
+
+unsigned char spi_init(SPI_Mode operation, SPI_Direction direction, SPI_Polarity polarity, SPI_Phase phase);
          void spi_disable(void);
-         void spi_select(unsigned char mode);
-unsigned char spi_slave_select(void);
+         void spi_select(SPI_Select mode);
+   SPI_Select spi_slave_select(void);
 
 #ifndef SPI_SPIE
     unsigned char spi_transfer(unsigned char data);
-    unsigned char spi_slave_transfer(unsigned char *data);
+       SPI_Status spi_slave_transfer(unsigned char *data);
 #endif
 
 #endif /* SPI_H_ */

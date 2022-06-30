@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard
+ *    Hardware: ATmega16
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Sample for writing data over uart with
@@ -13,7 +14,6 @@
  */ 
 
 #define F_CPU 12000000UL    // System clock (required for delay)
-#define BAUD 9600UL         // UART baudrate for data transmission
 
 // System libraries
 #include <stdio.h>
@@ -58,7 +58,7 @@ int main(void)
         }
         else
         {
-            uart_error();
+            uart_clear();
             printf("\n\rInput error!\n\n\r");
         }
         
@@ -72,7 +72,7 @@ int main(void)
         }
         else
         {
-            uart_error();
+            uart_clear();
             printf("\n\rInput error!\n\n\r");
         }
         
@@ -89,7 +89,7 @@ int main(void)
         }
         else
         {
-            uart_error();
+            uart_clear();
             printf("\n\rInput error!\n\n\r");
         }
         

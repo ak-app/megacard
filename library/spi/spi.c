@@ -1,10 +1,11 @@
 /* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
+ * G.Raf^engineering
+ * www.sunriax.at
  * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
+ *    Platform: Megacard/STK500/STK600
+ *    Hardware: ATmega??-????
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Function file for spi library
@@ -34,7 +35,7 @@
 //  |    Return:    0x00    ->  Init complete                       |
 //  |               0xFF    ->  Master abort                        |
 //  +---------------------------------------------------------------+
-unsigned char spi_init(unsigned char operation, unsigned char direction, unsigned char transfer)
+unsigned char spi_init(SPI_Mode operation, SPI_Direction direction, SPI_Polarity polarity, SPI_Phase phase)
 {   
     // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     // !!!      SPECIAL FUNCTION        !!!
@@ -64,8 +65,8 @@ unsigned char spi_init(unsigned char operation, unsigned char direction, unsigne
     // MSB/LSB first
     SPCR |= ((0x01 & direction)<<5);
     
-    // Polarity of SCK and DATA
-    SPCR |= ((0x03 & transfer)<<2);
+    // Polarity and Phase of SCK and DATA
+    SPCR |= ((0x04 & polarity)<<3) | ((0x02 & phase)<<2);
     
     // SPI interrupt setup
     #ifdef SPI_SPIE
@@ -107,12 +108,12 @@ void spi_disable(void)
 //  | Parameter:    mode    ->  0x01 = Slave Select Pin HIGH -> LOW |
 //  |                           0x00 = Slave Select Pin LOW -> HIGH |
 //  +---------------------------------------------------------------+
-void spi_select(unsigned char mode)
+void spi_select(SPI_Select mode)
 {
     switch(mode)
     {
-        case 0x01 : SPI_PORT &= ~(1<<SPI_SS);   break;  // Slave Select On
-        default   : SPI_PORT |=  (1<<SPI_SS);   break;  // Slave Select Off
+        case SPI_Enable : SPI_PORT &= ~(1<<SPI_SS);   break;  // Slave Select On
+        default         : SPI_PORT |=  (1<<SPI_SS);   break;  // Slave Select Off
     }
 }
 
@@ -122,12 +123,12 @@ void spi_select(unsigned char mode)
 //  |    Return:    0x00    ->  Slave disabled                      |
 //  |               0xFF    ->  Slave enabled                       |
 //  +---------------------------------------------------------------+
-unsigned char spi_slave_select(void)
+SPI_Select spi_slave_select(void)
 {
     if(!(SPI_PIN & (1<<SPI_SS)))
-        return 0xFF;
+        return SPI_Enable;
     else
-        return 0x00;
+        return SPI_Disable;
 }
 
 #ifndef SPI_SPIE
@@ -163,18 +164,18 @@ unsigned char spi_slave_select(void)
     //  +---------------------------------------------------------------+
     //  | Parameter:    data    ->  Transmit/Receive data byte          |
     //  |                                                               |
-    //  |    Return:    0x00    ->  Data received                       |
-    //  |               0x0F    ->  Data collision                      |
-    //  |               0xFF    ->  No data received                    |
+    //  |    Return:    Received  ->  Data received                     |
+    //  |               Collision ->  Data collision                    |
+    //  |               None      ->  No data received                  |
     //  +---------------------------------------------------------------+
-    unsigned char spi_slave_transfer(unsigned char *data)
+    SPI_Status spi_slave_transfer(unsigned char *data)
     {   
         if(SPSR & (1<<SPIF))
         {
             unsigned char temp = *data;  // Write data into a temporary buffer
             
-            *data = SPSR;   // Write data form temporary buffer into data variable
-            SPSR = temp;    // Setup new data for next transmission and reset WCOL and SPIF
+            *data = SPDR;   // Write data form buffer into data variable
+            SPDR = temp;    // Setup new data for next transmission and reset WCOL and SPIF
             
             // Check if this is necessary
             // Write Collision to Collision Port (Sticky)
@@ -186,12 +187,11 @@ unsigned char spi_slave_select(void)
                     #endif
                 #endif
                 
-                SPSR = temp;    // Write data again into the SPI data register and reset WCOL and SPIF
-                return 0x0F;    // Return that a collision happened
+                SPDR = temp;            // Write data again into the SPI data register and reset WCOL and SPIF
+                return SPI_Collision;   // Return that a collision happened
             }
-            return 0x00;    // Return that new data received
+            return SPI_Received;        // Return that new data received
         }
-        return 0xFF;    // Return that no new data received
+        return SPI_None;                // Return that no new data received
     }
-
 #endif

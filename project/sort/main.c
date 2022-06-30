@@ -4,7 +4,7 @@
  * -----------------------------------------
  *    Hardware: Megacard (ATmega16)
  * -----------------------------------------
- *     Version: 1.0 Release
+ *     Version: 2.0 Release
  *      Author: G.Raf
  * Description:
  *   Read data from uart, sort data and
@@ -114,7 +114,7 @@ int main(void)
                     // Allowed input [0 - 99999]
                     if(!(scanf("%5lu", &data[i]) == 1))
                     {
-                        uart_error();
+                        uart_clear();
                         printf("\tInput error!");
                         i--;
                     }
@@ -155,7 +155,7 @@ int main(void)
         }
         else
         {
-            uart_error();
+            uart_clear();
             printf("\tInput error!");
         }
     }
