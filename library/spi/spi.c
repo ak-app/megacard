@@ -172,6 +172,8 @@ SPI_Select spi_slave_select(void)
     {   
         if(SPSR & (1<<SPIF))
         {
+            SPI_DDR |= (1<<SPI_MOSI);
+            
             unsigned char temp = *data;  // Write data into a temporary buffer
             
             *data = SPDR;   // Write data form buffer into data variable
