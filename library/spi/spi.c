@@ -78,7 +78,7 @@ unsigned char spi_init(SPI_Mode operation, SPI_Direction direction, SPI_Polarity
     
     // Setup SCK, MOSI and SS as output
     // PORT configuration gets overwritten from SPI controller
-    SPI_DDR  |= (1<<SPI_SCK) | (1<<SPI_MOSI) | (1<<SPI_SS);
+    SPI_DDR  |= (1<<SPI_SCK) | (1<<SPI_MISO) | (1<<SPI_MOSI) | (1<<SPI_SS);
     
     // Check if master abort has occurred
     if(!(SPCR & (1<<MSTR)))
@@ -172,8 +172,6 @@ SPI_Select spi_slave_select(void)
     {   
         if(SPSR & (1<<SPIF))
         {
-            SPI_DDR |= (1<<SPI_MOSI);
-            
             unsigned char temp = *data;  // Write data into a temporary buffer
             
             *data = SPDR;   // Write data form buffer into data variable
