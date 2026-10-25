@@ -54,13 +54,13 @@ int main(void)
         
         // Single branch
         // Check if S1 (PINA1) is pressed (pushed -> LOW)
-        // PINA -> 0bXXXXXXX?
-        //       & 0b00000001
+        // PINA -> 0bXXXXXX?X
+        //       & 0b00000010
         //       ------------
-        //       = 0b0000000?
+        //       = 0b000000?0
         // if !(true)   when ? == 1
         //    !(false)  when ? == 0
-        if(!(PINA & 0x01))      // other options:   if(!(PINA & (1<<1)))
+        if(!(PINA & 0x02))      // other options:   if(!(PINA & (1<<1)))
         {                       //                  if(!(PINA & (1<<PA1))
             PORTC = LOW;        // Switch PORT level to GROUND (turn off LEDs)
         }
